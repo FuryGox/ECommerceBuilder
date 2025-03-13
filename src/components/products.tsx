@@ -1,3 +1,4 @@
+'use client';
 import { Star, StarHalf } from "@phosphor-icons/react/dist/ssr";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -5,6 +6,7 @@ import Image from "next/image";
 import { Button } from "./ui/button";
 import exp from "node:constants";
 import { ScrollArea, ScrollBar } from "./ui/scroll-area";
+import { useRouter } from "next/navigation";
 export default function Products() {
   return (
     <div className="flex justify-center items-center flex-col max-w-[1440px] w-full mx-auto">
@@ -14,8 +16,10 @@ export default function Products() {
   );
 }
 export function Product() {
+  const router = useRouter();
+
   return (
-    <div className="flex flex-col gap-y-2">
+    <div className="flex flex-col gap-y-2" onClick={() => {router.push(`/product/${1}`)}}>
       <div className="bg-gray-200">
         <Image
           src="/product.jpg"

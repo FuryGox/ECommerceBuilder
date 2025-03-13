@@ -8,7 +8,7 @@ import { Separator } from "./ui/separator";
 
 export function Service() {
   return (
-    <div className="flex flex-row flex-wrap items-center justify-between w-full bg-white px-8 py-12 gap-4">
+    <div className="flex flex-row flex-wrap items-center justify-between w-full px-8 py-12 gap-4">
       <div className="flex flex-col w-1/5 justify-start gap-2">
         <h1 className="text-2xl font-bold flex flex-row gap-2">
           <Truck size={28} />

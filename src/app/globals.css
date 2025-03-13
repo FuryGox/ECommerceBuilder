@@ -124,3 +124,59 @@
     @apply bg-background text-foreground;
   }
 }
+
+
+/* Hide scrollbar */
+html {
+  overflow: scroll;
+  scrollbar-width: none; /* Firefox */
+  
+}
+
+body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+
+.embla {
+  max-width: 48rem;
+  margin: auto;
+}
+
+.embla__viewport {
+  overflow: hidden;
+}
+
+.embla__container {
+  display: flex;
+}
+
+.embla__slide {
+  flex: 0 0 100%;
+  padding: 1rem;
+}
+
+.embla__slide__img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.embla__dots {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.embla__dot {
+  width: 12px;
+  height: 12px;
+  margin: 0 5px;
+  border-radius: 50%;
+  background-color: gray;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.embla__dot--selected {
+  width: 24px;
+  background-color: red;
+}

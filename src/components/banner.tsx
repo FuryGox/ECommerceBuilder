@@ -88,7 +88,7 @@ export function ProductBannerS() {
 
 export function ProductBannerVideoS() {
   return (
-    <div className="grid items-center w-full">
+    <div className="grid items-center w-full my-10">
       <div className="flex flex-col items-center w-full">
         <div className="text-5xl font-bold gap-2 p-8">AirNags</div>
         <div className="text-sm opacity-70 pb-4 pt-2">
