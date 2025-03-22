@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/provider/theme-provider";
 import { I18nProvider } from "@/components/provider/i18next-provider";
 import { ScreenProvider } from "@/components/provider/screen-provider";
 import { CartProvider } from "@/components/provider/cart-provider";
+import { AuthProvider } from "@/components/provider/auth-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,9 +39,11 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground ease-in-out transition-all duration-500`}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <I18nProvider>
+          <I18nProvider>
+            <AuthProvider>
               <CartProvider>{children}</CartProvider>
-            </I18nProvider>
+            </AuthProvider>
+          </I18nProvider>
         </ThemeProvider>
       </body>
     </html>
