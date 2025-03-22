@@ -4,6 +4,8 @@ import "./globals.css";
 import Header from "@/components/site-header/header";
 import { ThemeProvider } from "@/components/provider/theme-provider";
 import { I18nProvider } from "@/components/provider/i18next-provider";
+import { ScreenProvider } from "@/components/provider/screen-provider";
+import { CartProvider } from "@/components/provider/cart-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,24 +28,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-      <I18nProvider>
-        <html lang="en" suppressHydrationWarning>
-          <head>
-            <meta charSet="utf-8" />
-            <meta
-              name="viewport"
-              content="width=device-width, initial-scale=1"
-            />
-            <link rel="icon" href="/favicon.ico" />
-          </head>
-          <body
-            className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground ease-in-out transition-all duration-500`}
-          >
-            {children}
-          </body>
-        </html>
-      </I18nProvider>
-    </ThemeProvider>
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+      </head>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground ease-in-out transition-all duration-500`}
+      >
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <I18nProvider>
+              <CartProvider>{children}</CartProvider>
+            </I18nProvider>
+        </ThemeProvider>
+      </body>
+    </html>
   );
 }

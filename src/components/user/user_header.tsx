@@ -1,5 +1,13 @@
 import { User } from "@phosphor-icons/react/dist/ssr";
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "../ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "../ui/sheet";
+import LoginByGoogleComponent from "../provider/google-login";
 
 export default function User_header() {
   return (
@@ -9,11 +17,9 @@ export default function User_header() {
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>Are you absolutely sure?</SheetTitle>
-          <SheetDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
-          </SheetDescription>
+          <SheetTitle>Login?</SheetTitle>
+
+          <LoginByGoogleComponent />
         </SheetHeader>
       </SheetContent>
     </Sheet>

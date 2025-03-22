@@ -1,12 +1,21 @@
-'use client';
+"use client";
 import { Star, StarHalf } from "@phosphor-icons/react/dist/ssr";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
+import {  product_data } from "@/lib/datatype/product";
 import Image from "next/image";
 import { Button } from "./ui/button";
-import exp from "node:constants";
 import { ScrollArea, ScrollBar } from "./ui/scroll-area";
 import { useRouter } from "next/navigation";
+
+import { product_list_example } from "@/lib/tempdata";
+import { Card } from "./ui/card";
+import { AspectRatio } from "./ui/aspect-ratio";
+import {
+  Product_card_lg,
+  Product_card_md,
+  Product_card_sm,
+} from "./product_card/product_card";
+
 export default function Products() {
   return (
     <div className="flex justify-center items-center flex-col max-w-[1440px] w-full mx-auto">
@@ -15,14 +24,19 @@ export default function Products() {
     </div>
   );
 }
-export function Product() {
+export function Product({ product }: { product: product_data }) {
   const router = useRouter();
 
   return (
-    <div className="flex flex-col gap-y-2" onClick={() => {router.push(`/product/${1}`)}}>
+    <div
+      className="flex flex-col gap-y-2"
+      onClick={() => {
+        router.push(`/product/${product.id}`);
+      }}
+    >
       <div className="bg-gray-200">
         <Image
-          src="/product.jpg"
+          src={product.image}
           alt="Product Image"
           width={270}
           height={350}
@@ -30,52 +44,33 @@ export function Product() {
         />
       </div>
       <span className="flex gap-1">
-        <Star size={18} weight="fill" />
-        <Star size={18} weight="fill" />
-        <Star size={18} weight="fill" />
-        <Star size={18} weight="fill" />
-        <StarHalf size={18} weight="fill" />
+        {[...Array(Math.floor(product.rating))].map((_, i) => (
+          <Star key={i} size={18} weight="fill" />
+        ))}
+        {product.rating % 1 !== 0 && <StarHalf size={18} weight="fill" />}
+        {[...Array(5 - Math.ceil(product.rating))].map((_, i) => (
+          <Star
+            key={i + Math.ceil(product.rating)}
+            size={18}
+            weight="regular"
+          />
+        ))}
       </span>
-      <h3>Product Name</h3>
+      <h3>{product.name}</h3>
       <span className="flex justify-start gap-1">
-        <p className="font-semibold">$200 </p>
-        <p className="line-through text-base">$900 </p>
+        <p className="font-semibold">${product.sale_price} </p>
+        <p className="line-through text-base">${product.price} </p>
       </span>
     </div>
   );
 }
 
-export function CardSliderH() {
-  return (
-    <div className="w-full max-w-[80vw]">
-      <div className="text-2xl font-bold px-4 py-8">
-        New Arrivals
-      </div>
-      <ScrollArea>
-        <div className="flex w-full max-w-[80vw] space-x-4 p-4">
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-        </div>
-        <ScrollBar orientation="horizontal" />
-      </ScrollArea>
-    </div>
-  );
-}
-
-export function ProductCard() {
+export function ProductCard({ product }: { product: product_data }) {
   return (
     <div className="flex flex-col gap-1 bg-gray-100 p-4 rounded-2xl">
       <div className="bg-gray-200 mb-5">
         <Image
-          src="/product.jpg"
+          src={product.image}
           alt="Product Image"
           width={250}
           height={300}
@@ -88,9 +83,45 @@ export function ProductCard() {
           variant={"outline"}
           className="rounded-4xl px-4 h-[2.25rem] text-base border-black-[0.25px]"
         >
-          Product Name
+          {product.name}
         </Button>
       </span>
+    </div>
+  );
+}
+
+export function ProductList() {
+  return (
+    <div className="grid 2xl:grid-cols-5 xl:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-x-4 justify-between gap-y-8 mb-4">
+      {product_list_example.map((product) => (
+        <Product_card_md
+          key={product.id}
+          product={product}
+          imageClassName="2xl:h-[400px] xl:h-[380px] md:h-[350px] sm:h-[320px] h-[300px]"
+        />
+      ))}
+    </div>
+  );
+}
+
+export function CardSliderH() {
+  return (
+    <div className="max-w-[80vw] ">
+      <h1 className="text-2xl">New Arrivals</h1>
+      <div className="w-full">
+        <ScrollArea>
+          <div className="flex w-max space-x-4 p-4">
+            {product_list_example.map((product) => (
+              <Product_card_md
+                key={product.id}
+                product={product}
+                imageClassName="2xl:h-[400px] xl:h-[380px] md:h-[350px] sm:h-[320px] h-[300px]"
+              />
+            ))}
+          </div>
+          <ScrollBar orientation="horizontal" />
+        </ScrollArea>
+      </div>
     </div>
   );
 }
@@ -157,12 +188,31 @@ export function ProductTabs() {
   );
 }
 
-export function ProductList() {
+export function Random_productLine({
+  product_list,
+}: {
+  product_list: product_data[];
+}) {
+  const router = useRouter();
+
   return (
-    <div className="grid 2xl:grid-cols-5 xl:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-x-4 justify-between gap-y-8 mb-4">
-      {Array.from({ length: 24 }).map((_, i) => (
-        <Product key={i} />
-      ))}
+    <div className="mt-16">
+      <h2 className="text-2xl font-bold mb-6">You might also like</h2>
+      <div className="w-full">
+        <ScrollArea>
+          <div className="flex w-max space-x-4 p-4">
+            {product_list.map((product) => (
+              <Product_card_md
+                key={product.id}
+                product={product}
+                imageClassName="2xl:h-[400px] xl:h-[380px] md:h-[350px] sm:h-[320px] h-[300px]"
+              />
+            ))}
+          </div>
+          <ScrollBar orientation="horizontal" />
+        </ScrollArea>
+      </div>
     </div>
   );
 }
+//product_list_example.slice(1, 5)

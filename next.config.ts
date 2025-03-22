@@ -9,6 +9,11 @@ const nextConfig: NextConfig = {
         hostname: 'api.lorem.space',
         pathname: '/image/**', 
       },
+      {
+        protocol: 'https',
+        hostname: 'picsum.photos',
+        pathname: '/200**', 
+      },
     ],
   },
 };

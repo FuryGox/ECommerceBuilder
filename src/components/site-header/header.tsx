@@ -16,9 +16,11 @@ import {
 import { Button } from "../ui/button";
 import User_header from "../user/user_header";
 import { ThemeToggle } from "./theme-toggle";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useChangeLanguage } from "../provider/i18next-provider";
+import { useCart } from "../provider/cart-provider";
+import CartModal from "../cart";
 
 export default function Header() {
   return (
@@ -57,6 +59,16 @@ export function HeaderLogo() {
 export function HeaderIconMenu() {
   const { t } = useTranslation();
   const { changeLanguage } = useChangeLanguage();
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const { cartItems } = useCart();
+
+  const handleOpenCart = () => {
+    setIsCartOpen(true);
+  };
+
+  const handleCloseCart = () => {
+    setIsCartOpen(false);
+  };
 
   return (
     <div className="flex gap-4">
@@ -82,10 +94,11 @@ export function HeaderIconMenu() {
       <ThemeToggle />
 
       <User_header />
-      <span className="relative w-10 h-10 flex items-center justify-center">
+      <span className="relative w-10 h-10 flex items-center justify-center" onClick={handleOpenCart}>
         <Bag size={24} />
         <CartNumber quantity="2" />
       </span>
+      {isCartOpen && <CartModal onClose={handleCloseCart} />}
     </div>
   );
 }
