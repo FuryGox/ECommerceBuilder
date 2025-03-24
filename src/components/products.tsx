@@ -7,7 +7,6 @@ import { Button } from "./ui/button";
 import { ScrollArea, ScrollBar } from "./ui/scroll-area";
 import { useRouter } from "next/navigation";
 
-import { product_list_example } from "@/lib/tempdata";
 import { Card } from "./ui/card";
 import { AspectRatio } from "./ui/aspect-ratio";
 import {
@@ -15,7 +14,9 @@ import {
   Product_card_md,
   Product_card_sm,
 } from "./product_card/product_card";
+import { getProducts } from "@/lib/api/product";
 
+const product_list_example: product_data[] = await getProducts(20) 
 export default function Products() {
   return (
     <div className="flex justify-center items-center flex-col max-w-[1440px] w-full mx-auto">

@@ -3,23 +3,28 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { useParams, useRouter } from "next/navigation";
-import { product_detail } from "@/lib/datatype/product";
-import { getRandomProducts, product_list_example } from "@/lib/tempdata";
+import { product_data, product_detail } from "@/lib/datatype/product";
+import { getRandomProducts } from "@/lib/tempdata";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useState } from "react";
 import Header from "@/components/site-header/header";
-import { Random_productLine } from "@/components/products";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Star, StarHalf } from "@phosphor-icons/react/dist/ssr";
+import { useCart } from "@/components/provider/cart-provider";
+import { getProducts } from "@/lib/api/product";
+import { Random_productLine } from "@/components/products";
+
+const random_product = await getRandomProducts(5)
+const product_list_example: product_data[] = await getProducts(20) 
 
 export default function ProductDetail() {
   const router = useRouter();
   const { slug } = useParams();
 
   const product = product_list_example.find(
-    (product) => product.id === Number(slug)
+    (product) => product.id === slug
   );
   const handleImageError = (e: any) => {
     e.target.src = "/images/dummy_600x400_000000_ffef87.png"; // Placeholder image
@@ -29,10 +34,31 @@ export default function ProductDetail() {
 
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const [quality, setQuality] = useState(1);
   const [mainImage, setMainImage] = useState(product.image);
 
-  const sizes = ["S", "M", "L", "XL", "2XL"];
+  const {addToCart} = useCart();
+  const handleAddToCart = (e:any) => {
+    e.stopPropagation();
+    if (product != undefined){
+      addToCart(
+        {
+          id: product.id,
+          name: product.name,
+          price: product.sale_price? product.sale_price : product.price,
+          quantity: quality,
+          images: product.image,
+          option: {
+            size: selectedSize ?? "_",
+            color: selectedColor ?? "_",
+          }
+        }
+      )
+    }
+  };
 
+  const sizes = product.property?.size ?? [];
+  const colors = product.property?.color ?? [];
   return (
     <div className="w-full ease-in-out transition-all duration-500">
       <Header />
@@ -106,18 +132,32 @@ export default function ProductDetail() {
                 ))}
               </div>
             </div>
-
+            <div className="mt-4">
+              <p className="text-sm font-medium">colors:</p>
+              <div className="flex gap-2 mt-2">
+                {colors.map((color) => (
+                  <Button
+                    key={color.id}
+                    variant={selectedColor === color.value ? "default" : "outline"}
+                    onClick={() => setSelectedColor(color.value)}
+                  >
+                    {color.value}
+                  </Button>
+                ))}
+              </div>
+            </div>
             <div className="mt-6 flex gap-4 items-center flex-wrap">
               <span>
                 <p>Quantity</p>
-                <input
+                <Input
                   type="number"
                   className="w-16 p-2 border rounded-lg"
                   defaultValue={1}
+                  onChange={(e) => setQuality(Number(e.target.value))}
                   min={1}
                 />
               </span>
-              <Button className="w-full">Add to Cart</Button>
+              <Button className="w-full" onClick={(e) => handleAddToCart(e)}>Add to Cart</Button>
             </div>
 
             <div className="mt-4 flex gap-4 text-sm text-gray-500">
@@ -177,7 +217,7 @@ export default function ProductDetail() {
           </TabsContent>
         </Tabs>
         <div>
-          <Random_productLine product_list={getRandomProducts(5)} />
+          <Random_productLine product_list={random_product} />
         </div>
       </div>
     </div>

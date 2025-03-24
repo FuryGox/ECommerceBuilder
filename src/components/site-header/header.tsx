@@ -96,7 +96,7 @@ export function HeaderIconMenu() {
       <User_header />
       <span className="relative w-10 h-10 flex items-center justify-center" onClick={handleOpenCart}>
         <Bag size={24} />
-        <CartNumber quantity="2" />
+        <CartNumber quantity={(cartItems.length) > 9 ? "9+": cartItems.length.toString() } />
       </span>
       {isCartOpen && <CartModal onClose={handleCloseCart} />}
     </div>

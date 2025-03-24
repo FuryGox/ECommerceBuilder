@@ -4,6 +4,7 @@ import { createContext, useContext, useState, useEffect } from "react";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 
 type User = {
+  id:string;
   name: string;
   avatar: string;
   email: string;
@@ -37,7 +38,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setIsLoading(true);
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_HOST ?? "http://localhost:3000/api"}/users/auth/google`,
+        `${process.env.NEXT_PUBLIC_API_HOST ?? "http://localhost:3000"}/api/users/auth/google`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -48,6 +49,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const data = await response.json();
       if (data.user) {
         const userData = {
+          id: data.user.id,
           name: data.user.name,
           avatar: data.user.avatar,
           email: data.user.email,

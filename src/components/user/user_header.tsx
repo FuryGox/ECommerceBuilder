@@ -9,6 +9,8 @@ import {
 } from "../ui/sheet";
 import LoginByGoogleComponent from "../provider/google-login";
 import { useAuth } from "../provider/auth-provider";
+import { Button } from "../ui/button";
+import { getProducts } from "@/lib/api/product";
 
 export default function User_header() {
   const { user ,isAuthenticated } = useAuth();
@@ -25,6 +27,9 @@ export default function User_header() {
         <SheetHeader>
           <SheetTitle>Login?</SheetTitle>
           <LoginByGoogleComponent />
+          <Button onClick={() => {getProducts(4)}}>
+            test api
+          </Button>
         </SheetHeader>
       </SheetContent>
     </Sheet>

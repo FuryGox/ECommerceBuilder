@@ -2,14 +2,17 @@ import { HoverCard, HoverCardTrigger, HoverCardContent } from '@/components/ui/h
 import { Button } from '@/components/ui/button';
 import { Eye, Heart, Scales } from '@phosphor-icons/react';
 import { useCart } from '../provider/cart-provider';
-import { product_list_example } from '@/lib/tempdata';
+import { getProducts } from '@/lib/api/product';
+import { product_data } from '@/lib/datatype/product';
+
+const product_list_example: product_data[] = await getProducts(20) 
 
 const ProductActions = ({ productId }: {productId: string | number}) => {
   const {addToCart} = useCart();
   const handleAddToCart = (e:any) => {
     e.stopPropagation();
     const product = product_list_example.find(
-      (product) => product.id === Number(productId)
+      (product) => product.id === productId
     );
     if (product != undefined){
       addToCart(
@@ -18,7 +21,11 @@ const ProductActions = ({ productId }: {productId: string | number}) => {
           name: product.name,
           price: product.sale_price? product.sale_price : product.price,
           quantity: 1,
-          images: product.image
+          images: product.image,
+          option: {
+            size: product.property?.size?.[0] ?? "_",
+            color: product.property?.color?.[0] ?? "_",
+          }
         }
       )
     }
@@ -38,7 +45,7 @@ const ProductActions = ({ productId }: {productId: string | number}) => {
           {actions.map((action, index) => (
             <HoverCard key={index} openDelay={0} closeDelay={0}>
               <HoverCardTrigger className="w-fit">
-                <Button className={`bg-white rounded-none love transition-colors duration-300 ${action.hoverClass || ''}`}>
+                <Button className={`bg-foreground rounded-none love transition-colors duration-300 ${action.hoverClass || ''}`}>
                   {action.icon}
                 </Button>
               </HoverCardTrigger>

@@ -1,6 +1,6 @@
 interface product_property {
-  size?: string[];
-  color?: color[];
+  size?: any[];
+  color?: any[] ;
   other?: Record<string, string | number>;
   stock?: StockItem[];
 }

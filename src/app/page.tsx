@@ -10,14 +10,11 @@ import { Service } from "@/components/service";
 import { EmblaOptionsType } from "embla-carousel";
 import Image from "next/image";
 import LoginByGoogleComponent from "@/components/provider/google-login";
-import { getRandomProducts, product_list_example } from "@/lib/tempdata";
-import {
-  Product_card_lg,
-  Product_card_md,
-  Product_card_sm,
-} from "@/components/product_card/product_card";
+import { getRandomProducts,  } from "@/lib/tempdata";
+import { getProducts } from "@/lib/api/product";
+import { product_data } from "@/lib/datatype/product";
 
-const product_temp = product_list_example[0];
+const product_temp =  await getProducts(1) 
 export default function Home() {
   return (
     <div>
@@ -31,7 +28,6 @@ export default function Home() {
           <div className="mx-auto max-w-[1200px]">
             <EmblaCarousel />
             <Products />
-            <Product_card_md product={product_temp} />
           </div>
 
           <ProductBannerVideoS />
