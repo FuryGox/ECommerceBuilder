@@ -26,7 +26,7 @@ export default function Home() {
         >
           <ProductBanner />
           <div className="mx-auto max-w-[1200px]">
-            <EmblaCarousel />
+            
             <Products />
           </div>
 

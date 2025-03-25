@@ -36,7 +36,7 @@ function convertProductData(data: any): product_data {
     rating: data.rating,
     image: data.image.url,
     images: data.images?.map((img: any) => img.file.url) || [],
-    category_id: parseInt(data.category_id.replace(/\D/g, ""), 10),
+    category_id: data.category_id?? 0,
     brand: data.brand,
     property: {
       size: data.property?.size?.map((s: any) => s.value) || [],

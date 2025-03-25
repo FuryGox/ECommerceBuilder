@@ -13,7 +13,7 @@ import { Button } from "../ui/button";
 import { getProducts } from "@/lib/api/product";
 
 export default function User_header() {
-  const { user ,isAuthenticated } = useAuth();
+  const { user , referralId ,isAuthenticated } = useAuth();
   return (
     <Sheet>
       <SheetTrigger>
@@ -27,7 +27,7 @@ export default function User_header() {
         <SheetHeader>
           <SheetTitle>Login?</SheetTitle>
           <LoginByGoogleComponent />
-          <Button onClick={() => {getProducts(4)}}>
+          <Button onClick={() => {console.log(referralId)}}>
             test api
           </Button>
         </SheetHeader>

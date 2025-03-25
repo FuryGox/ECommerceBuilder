@@ -2,9 +2,10 @@
 
 import { createContext, useContext, useState, useEffect } from "react";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
+import { useSearchParams } from "next/navigation";
 
 type User = {
-  id:string;
+  id: string;
   name: string;
   avatar: string;
   email: string;
@@ -13,6 +14,7 @@ type User = {
 
 type AuthContextType = {
   user: User | null;
+  referralId: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
   login: (token: string) => Promise<void>;
@@ -25,6 +27,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const isAuthenticated = !!user;
+  const searchParams = useSearchParams();
+  const referralId = searchParams.get("ref");
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -38,11 +42,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setIsLoading(true);
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_HOST ?? "http://localhost:3000"}/api/users/auth/google`,
+        `${
+          process.env.NEXT_PUBLIC_API_HOST ?? "http://localhost:3000"
+        }/api/users/auth/google`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ token }),
+          body: JSON.stringify({ token: token , referralId : referralId }),
           credentials: "include",
         }
       );
@@ -71,8 +77,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ?? ""}>
-      <AuthContext.Provider value={{ user, isAuthenticated, isLoading, login, logout }}>
+    <GoogleOAuthProvider
+      clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ?? ""}
+    >
+      <AuthContext.Provider
+        value={{ user, referralId, isAuthenticated, isLoading, login, logout }}
+      >
         {children}
       </AuthContext.Provider>
     </GoogleOAuthProvider>
