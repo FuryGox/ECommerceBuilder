@@ -129,7 +129,7 @@ export function Product_card_md({
   product,
   title_pos,
   imageWidth = 300,
-  imageHeight = 400,
+  imageHeight = 300,
   imageClassName = "",
 }: {
   product: product_data;
@@ -142,19 +142,19 @@ export function Product_card_md({
   const {addToCart} = useCart();
   return (
     <div
-      className="flex flex-col gap-y-2 w-fit"
+      className="flex flex-col gap-y-2 w-fit shadow-lg rounded-xl pt-4 pb-5 px-4 border"
       onClick={() => {
         router.push(`/product/${product.id}`);
       }}
     >
-      <div className="relative group w-fit rounded-2xl">
+      <div className="relative group w-[300px] rounded-2xl">
         <div className="w-fit relative">
           <Image
             src={product.image}
             alt="Product Image"
             width={imageWidth}
             height={imageHeight}
-            className={`bg-transparent rounded-2xl w-[300px] h-[400px] ${imageClassName}`}
+            className={`bg-transparent rounded-2xl w-[300px] h-[300px] `}
           />
           <ProductActions productId={product.id} />
         </div>

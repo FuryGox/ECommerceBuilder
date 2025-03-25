@@ -6,11 +6,12 @@ import {
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import EmblaCarousel from "./carousel";
 
 export default function ProductBanner() {
   return (
     <div
-      className="flex items-center w-full h-[50vh] -z-20"
+      className="flex items-center w-full h-[600px] -z-20"
       style={BannerStytle}
     >
       <div className="relative">
@@ -25,12 +26,8 @@ export default function ProductBanner() {
           </div>
         </div>
       </div>
-      <div className="absolute flex justify-center items-center w-full h-full">
-        <img
-          src="/images/NIKE+REVOLUTION+7-removebg-preview.png"
-          alt="Product Image"
-          className=" -z-10 w-fit"
-        />
+      <div className="absolute flex justify-center items-center w-full h-[300px] top-[100px]">
+        <EmblaCarousel />
       </div>
     </div>
   );
@@ -39,7 +36,7 @@ export default function ProductBanner() {
 export function ProductBannerS() {
   return (
     <div className="w-full">
-      <div className="flex items-center w-full h-[50vh] relative ">
+      <div className="flex items-center w-full h-[500px] relative ">
         <div
           className="absolute flex justify-center w-full h-full items-center -z-10 "
           style={BannerStytleS}
@@ -85,37 +82,37 @@ export function ProductBannerS() {
         </div>
       </div>
       <div className="w-full  sm:block md:hidden lg:hidden xl:hidden 2xl:hidden ">
-          <div className="text-5xl text-black font-bold gap-2 p-8">
-            <h1>Join our newsletter.</h1>
-            <h1>Enjoy big discounts.</h1>
-          </div>
-          <div>
-            <div className="flex flex-row items-center gap-2 mx-8 w-[80vw] border-b-2 border-gray-800">
-              <EnvelopeSimple size={32} />
-              <Input
-                className="focus-visible:ring-0 rounded-none border-none shadow-none"
-                type="email"
-                placeholder="Your Email"
-              />
-              <Button className="rounded-none px-8 bg-transparent text-black shadow-none hover:bg-gray-800 hover:text-white transition-colors duration-300 ease-linear text-base">
-                Subscribe
-              </Button>
-            </div>
-            <div className="flex flex-row items-center gap-2 my-4 mx-8">
-              <Checkbox
-                id="terms"
-                className="border-1 border-black rounded-full"
-              />
-              <label
-                htmlFor="terms"
-                className="text-sm font-medium leading-none opacity-70"
-              >
-                I agree to receive marketing emails.
-              </label>
-            </div>
-          </div>
-          <div></div>
+        <div className="text-5xl text-black font-bold gap-2 p-8">
+          <h1>Join our newsletter.</h1>
+          <h1>Enjoy big discounts.</h1>
         </div>
+        <div>
+          <div className="flex flex-row items-center gap-2 mx-8 w-[80vw] border-b-2 border-gray-800">
+            <EnvelopeSimple size={32} />
+            <Input
+              className="focus-visible:ring-0 rounded-none border-none shadow-none"
+              type="email"
+              placeholder="Your Email"
+            />
+            <Button className="rounded-none px-8 bg-transparent text-black shadow-none hover:bg-gray-800 hover:text-white transition-colors duration-300 ease-linear text-base">
+              Subscribe
+            </Button>
+          </div>
+          <div className="flex flex-row items-center gap-2 my-4 mx-8">
+            <Checkbox
+              id="terms"
+              className="border-1 border-black rounded-full"
+            />
+            <label
+              htmlFor="terms"
+              className="text-sm font-medium leading-none opacity-70"
+            >
+              I agree to receive marketing emails.
+            </label>
+          </div>
+        </div>
+        <div></div>
+      </div>
     </div>
   );
 }

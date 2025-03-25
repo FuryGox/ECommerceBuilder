@@ -15,6 +15,7 @@ import { Star, StarHalf } from "@phosphor-icons/react/dist/ssr";
 import { useCart } from "@/components/provider/cart-provider";
 import { getProducts } from "@/lib/api/product";
 import { Random_productLine } from "@/components/products";
+import Footer from "@/components/footer";
 
 const random_product = await getRandomProducts(5)
 const product_list_example: product_data[] = await getProducts(20) 
@@ -220,6 +221,7 @@ export default function ProductDetail() {
           <Random_productLine product_list={random_product} />
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

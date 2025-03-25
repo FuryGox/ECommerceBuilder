@@ -17,6 +17,7 @@ type AuthContextType = {
   referralId: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
+  setReferralId: (referralId: string | null) => void;
   login: (token: string) => Promise<void>;
   logout: () => void;
 };
@@ -26,9 +27,8 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [referralId , setReferralId] = useState<string | null>(null);
   const isAuthenticated = !!user;
-  const searchParams = useSearchParams();
-  const referralId = searchParams.get("ref");
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -81,7 +81,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ?? ""}
     >
       <AuthContext.Provider
-        value={{ user, referralId, isAuthenticated, isLoading, login, logout }}
+        value={{ user, referralId, isAuthenticated, isLoading, login, logout ,setReferralId }}
       >
         {children}
       </AuthContext.Provider>

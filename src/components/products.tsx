@@ -1,7 +1,7 @@
 "use client";
 import { Star, StarHalf } from "@phosphor-icons/react/dist/ssr";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {  product_data } from "@/lib/datatype/product";
+import { product_data } from "@/lib/datatype/product";
 import Image from "next/image";
 import { Button } from "./ui/button";
 import { ScrollArea, ScrollBar } from "./ui/scroll-area";
@@ -16,12 +16,18 @@ import {
 } from "./product_card/product_card";
 import { getProducts } from "@/lib/api/product";
 
-const product_list_example: product_data[] = await getProducts(20) 
+const product_list_example: product_data[] = await getProducts(20);
 export default function Products() {
   return (
-    <div className="flex justify-center items-center flex-col max-w-[1440px] w-full mx-auto">
+    <div className="flex justify-center items-center flex-col max-w-[1400px] w-full mx-auto">
       <CardSliderH />
-      <ProductTabs />
+
+      <div className="w-full my-4">
+        <h1 className="text-2xl font-bold mb-6 ">Just for you</h1>
+        <ProductList />
+
+        <LoadMore />
+      </div>
     </div>
   );
 }
@@ -93,7 +99,7 @@ export function ProductCard({ product }: { product: product_data }) {
 
 export function ProductList() {
   return (
-    <div className="grid 2xl:grid-cols-5 xl:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-x-4 justify-between gap-y-8 mb-4">
+    <div className="flex flex-wrap 2xl:grid-cols-4 xl:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-x-4 justify-between grow gap-y-8 mb-4">
       {product_list_example.map((product) => (
         <Product_card_md
           key={product.id}
@@ -107,11 +113,11 @@ export function ProductList() {
 
 export function CardSliderH() {
   return (
-    <div className="max-w-[80vw] ">
+    <div className="w-full">
       <h1 className="text-2xl">New Arrivals</h1>
       <div className="w-full">
         <ScrollArea>
-          <div className="flex w-max space-x-4 p-4">
+          <div className="flex w-max space-x-4 py-4">
             {product_list_example.map((product) => (
               <Product_card_md
                 key={product.id}

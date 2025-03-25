@@ -13,7 +13,7 @@ import { Button } from "../ui/button";
 import { getProducts } from "@/lib/api/product";
 
 export default function User_header() {
-  const { user , referralId ,isAuthenticated } = useAuth();
+  const { user , referralId ,isAuthenticated ,setReferralId } = useAuth();
   return (
     <Sheet>
       <SheetTrigger>
